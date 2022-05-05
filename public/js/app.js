@@ -12,7 +12,7 @@ weatherForm.addEventListener('submit',(e)=>{
     if(!search.value){
         messageOne.textContent = "you should provide an address"
     }else{
-        fetch("http://localhost:3000/weather?address="+ search.value).then((response)=>{
+        fetch("/weather?address="+ search.value).then((response)=>{
     response.json().then((data)=>{
         if(data.Error){
             messageOne.textContent = ""
