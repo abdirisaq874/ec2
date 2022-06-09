@@ -37,7 +37,7 @@ app.get('/about',(req,res)=>{
     })
 })
 
-app.get('/.well-known/acme-challenge/nGFlaG74kOwKcBugHODtix4VBCrcY6klYesWy9ktd70',(req,res)=>{
+app.get('/.well-known/acme-challenge/4m8yh_9hhWBqQA0Opg980jMXBAW-M6lQ7D6bF05uv-o',(req,res)=>{
     res.render('new',{
         title : "about Me"
     })
