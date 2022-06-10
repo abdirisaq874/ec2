@@ -4,10 +4,32 @@ const hbs = require('hbs')
 const geocode = require("./utils/geocode")
 const forecast = require('./utils/forecast')
 const { json } = require('express')
-
+var sslRedirect = require('heroku-ssl-redirect').default;
 
 const app = express()
-const port = process.env.PORT || 4000
+
+app.use(sslRedirect());
+
+module.exports = function(environments, status) {
+    environments = environments || ['production'];
+    status = status || 302;
+    return function(req, res, next) {
+      if (environments.indexOf(process.env.NODE_ENV) >= 0) {
+        if (req.headers['x-forwarded-proto'] != 'https') {
+          res.redirect(status, 'https://' + req.hostname + req.originalUrl);
+        }
+        else {
+          next();
+        }
+      }
+      else {
+        next();
+      }
+    };
+  };
+
+
+const port = process.env.PORT || 3500
 
 // set handlebars engine and views location
 app.set('view engine',"hbs")
@@ -43,14 +65,6 @@ app.get('/.well-known/acme-challenge/fdGDxXymrsEJmD-h7x_NDtNtodPwXa8HHudB3iTdTPc
     })
 })
 
-if (process.env.NODE_ENV === 'production') {
-    app.use(function(req, res, next) {
-      if (req.headers['x-forwarded-proto'] !== 'https' && req.path !== process.env.LE_URL) {
-        return res.redirect(['https://', req.get('Host'), req.url].join(''));
-      }
-      return next();
-    });
-  }
 
 app.get('',(req,res)=>{
     res.send('<h1>Hello express!</h1>')
