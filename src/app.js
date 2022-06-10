@@ -7,7 +7,7 @@ const { json } = require('express')
 
 
 const app = express()
-const port = process.env.PORT || 9000
+const port = process.env.PORT || 4000
 
 // set handlebars engine and views location
 app.set('view engine',"hbs")
@@ -37,7 +37,7 @@ app.get('/about',(req,res)=>{
     })
 })
 
-app.get('.well-known/acme-challenge/fdGDxXymrsEJmD-h7x_NDtNtodPwXa8HHudB3iTdTPc',(req,res)=>{
+app.get('/.well-known/acme-challenge/fdGDxXymrsEJmD-h7x_NDtNtodPwXa8HHudB3iTdTPc',(req,res)=>{
     res.render('new',{
         title : "about Me"
     })
