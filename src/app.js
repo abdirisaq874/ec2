@@ -43,6 +43,15 @@ app.get('/.well-known/acme-challenge/fdGDxXymrsEJmD-h7x_NDtNtodPwXa8HHudB3iTdTPc
     })
 })
 
+if (process.env.NODE_ENV === 'production') {
+    app.use(function(req, res, next) {
+      if (req.headers['x-forwarded-proto'] !== 'https' && req.path !== process.env.LE_URL) {
+        return res.redirect(['https://', req.get('Host'), req.url].join(''));
+      }
+      return next();
+    });
+  }
+
 app.get('',(req,res)=>{
     res.send('<h1>Hello express!</h1>')
 })
