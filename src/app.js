@@ -5,7 +5,6 @@ const geocode = require("./utils/geocode")
 const forecast = require('./utils/forecast')
 const { json } = require('express')
 var sslRedirect = require('heroku-ssl-redirect').default;
-const db = require("./../../task-manager/db/oracledb")
 
 
 const app = express()
