@@ -5,6 +5,8 @@ const geocode = require("./utils/geocode")
 const forecast = require('./utils/forecast')
 const { json } = require('express')
 var sslRedirect = require('heroku-ssl-redirect').default;
+const db = require("./../../task-manager/db/oracledb")
+
 
 const app = express()
 
@@ -29,7 +31,7 @@ module.exports = function(environments, status) {
   };
 
 
-const port = process.env.PORT || 3500
+const port = process.env.PORT || 3000
 
 // set handlebars engine and views location
 app.set('view engine',"hbs")
@@ -55,12 +57,6 @@ app.get('/help',(req,res)=>{
 
 app.get('/about',(req,res)=>{
     res.render('about',{
-        title : "about Me"
-    })
-})
-
-app.get('/.well-known/acme-challenge/fdGDxXymrsEJmD-h7x_NDtNtodPwXa8HHudB3iTdTPc',(req,res)=>{
-    res.render('new',{
         title : "about Me"
     })
 })
@@ -105,6 +101,17 @@ app.get('/weather',(req,res)=>{
             })
     }
 })
+
+const id = 5522617216
+app.get("/users",(req,res)=>{
+  db(`select * from Nodetab where id =`+id).then(ok => {
+    res.send(ok)
+  })
+  .catch(err => {
+    console.error(err)
+  })  
+})
+
 app.get('/products',(req,res)=>{
     if(!req.query.search){
         return res.send({
