@@ -5,7 +5,7 @@ const geocode = require("./utils/geocode")
 const forecast = require('./utils/forecast')
 const { json } = require('express')
 var sslRedirect = require('heroku-ssl-redirect').default;
-
+//const db =  require("./../../task-manager/db/oracledb")
 
 const app = express()
 
@@ -37,6 +37,9 @@ app.set('view engine',"hbs")
 app.set('views',path.join(__dirname,"../templates/views"))
 hbs.registerPartials(path.join(__dirname,'../templates/partials'))
 
+app.get("/path",(req,res)=>{
+    res.send(path.join(__dirname))
+})
 // set up static directory to serve
 app.use(express.static(path.join(__dirname, "../public")))
 
@@ -60,10 +63,18 @@ app.get('/about',(req,res)=>{
     })
 })
 
-
-app.get('',(req,res)=>{
-    res.send('<h1>Hello express!</h1>')
-})
+// const id = 5522617216
+// app.get("/users",(req,res)=>{
+//   db(`select * from Nodetab where id =`+id).then(ok => {
+//     res.send(ok)
+//   })
+//   .catch(err => {
+//     console.error(err)
+//   })  
+// })
+// app.get('',(req,res)=>{
+//     res.send('<h1>Hello express!</h1>')
+// })
 
 
 app.get('/weather',(req,res)=>{
